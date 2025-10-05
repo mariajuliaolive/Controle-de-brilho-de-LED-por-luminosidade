@@ -1,0 +1,75 @@
+
+
+
+int pinoLed = 9;
+
+
+int pinoLdr = A0;
+
+
+const float RESISTOR_FIXO = 10000.0;
+
+
+const float TENSAO_ALIMENTACAO = 5.0;
+
+void setup() {
+  
+  pinMode(pinoLed, OUTPUT);
+  
+  
+  pinMode(pinoLdr, INPUT);
+
+  
+  Serial.begin(9600);
+}
+
+void loop() {
+  
+  int valorSensor = analogRead(pinoLdr);
+
+  
+  float intensidadeLuz = (valorSensor / 1023.0) * 100.0;
+
+  
+  float resistenciaLdr;
+  if (valorSensor == 0) {
+    
+    
+    resistenciaLdr = -1; 
+  } else {
+    resistenciaLdr = RESISTOR_FIXO * ( (1023.0 / valorSensor) - 1.0 );
+  }
+
+
+  
+  int valorPwm = map(valorSensor, 0, 1023, 255, 0);
+
+ 
+  analogWrite(pinoLed, valorPwm);
+
+  
+  Serial.println("--- Leitura do Sensor ---");
+
+  Serial.print("Intensidade da Luz: ");
+  Serial.print(intensidadeLuz, 1); // Mostra com 1 casa decimal
+  Serial.println(" %");
+  
+  Serial.print("Resistencia do LDR: ");
+  if (resistenciaLdr == -1) {
+    Serial.println("Infinita (ou muito alta)");
+  } else {
+    Serial.print(resistenciaLdr, 0); // Mostra sem casas decimais
+    Serial.println(" Ohms");
+  }
+  
+  Serial.print("Valor Bruto (0-1023): ");
+  Serial.println(valorSensor);
+
+  Serial.print("Valor PWM p/ LED (0-255): ");
+  Serial.println(valorPwm);
+  
+  Serial.println("-------------------------");
+
+  
+  delay(1000);
+}
