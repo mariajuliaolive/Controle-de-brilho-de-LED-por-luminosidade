@@ -1,15 +1,8 @@
 
-
-
 int pinoLed = 9;
-
-
 int pinoLdr = A0;
 
-
 const float RESISTOR_FIXO = 10000.0;
-
-
 const float TENSAO_ALIMENTACAO = 5.0;
 
 void setup() {
@@ -44,7 +37,6 @@ void loop() {
   
   int valorPwm = map(valorSensor, 0, 1023, 255, 0);
 
- 
   analogWrite(pinoLed, valorPwm);
 
   
